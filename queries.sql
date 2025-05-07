@@ -1,13 +1,9 @@
-USE sql_store; -- you can choose any database you want
+USE sql_store;
 
--- SQL is generally executed statement by statement, 
--- when you write multiple statements in a row,
--- you need to specify where one ends so 
--- the next one can begin.
+SELECT first_name,
+last_name,
+points,
+(points + 10) * 100 AS 'discount factor' -- we can use alias to rename the column
 
-SELECT * -- you can select any other column you want and separate them by comma
-FROM customers -- you can choose any other table you want
-WHERE customer_id > 3 -- filter the data
-ORDER BY first_name -- sort the data
-
--- notice that the order of the query matters
+-- you can use DISTINCT keyword to get unique values like this:
+-- SELECT DISTINCT state
