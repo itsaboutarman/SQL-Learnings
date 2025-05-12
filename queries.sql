@@ -3,10 +3,5 @@ USE sql_store;
 SELECT *
 FROM customers
 
-
-ORDER BY first_name
-ORDER BY first_name DESC -- DESC is descending order
-ORDER BY state, first_name -- order by state first then first name
--- one of the difference between mysql and other database management systems
--- is that you can sort data by ant columns, whether that column
--- is in the select statement or not
+LIMIT 3 -- limit the number of rows and show the first 3 rows
+LIMIT 6,3 -- skip the first 6 rows and show the next 3 rows
