@@ -1,17 +1,11 @@
-USE sql_store;
+USE sql_hr;
+SELECT 
+    e.employee_id,
+    e.first_name AS employee_name,
+    m.first_name AS manager
 
-SELECT
-    o.order_date, o.order_id,
-    c.first_name, 
-    sh.name AS shipper,
-    os.name AS status
-
-    FROM orders o
-LEFT JOIN shippers sh
-	ON o.shipper_id = sh.shipper_id
-LEFT JOIN order_statuses os
-	ON o.status = os.order_status_id
-JOIN customers c
-	ON o.customer_id = c.customer_id
+FROM employees e
+LEFT JOIN employees m
+    ON e.reports_to = m.employee_id;
     
-ORDER BY o.status
+-- it shows every employee either they have a manager or not
