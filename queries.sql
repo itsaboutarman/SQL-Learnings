@@ -1,11 +1,18 @@
-USE sql_hr;
-SELECT 
-    e.employee_id,
-    e.first_name AS employee_name,
-    m.first_name AS manager
+USE sql_store;
 
-FROM employees e
-LEFT JOIN employees m
-    ON e.reports_to = m.employee_id;
-    
--- it shows every employee either they have a manager or not
+SELECT 
+    o.order_id,
+    c.first_name
+FROM orders o
+JOIN customers c
+    USING(customer_id)
+ -- Equal to: ON o.customer_id = c.customer_id
+
+----------------------------------------------------------------
+
+SELECT * 
+FROM order_items oi
+JOIN order_item_notes oin
+    USING(order_id, product_id)    
+    -- ON oi.order_id = oin.order_id
+    -- AND oi.product_id = oin.product_id
