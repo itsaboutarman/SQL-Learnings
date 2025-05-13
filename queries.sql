@@ -1,21 +1,17 @@
 USE sql_store;
 
-SELECT p.product_id, p.name, oi.quantity
-FROM products p
-LEFT JOIN order_items oi
-	ON p.product_id = oi.product_id
-ORDER BY product_id
+SELECT
+    o.order_date, o.order_id,
+    c.first_name, 
+    sh.name AS shipper,
+    os.name AS status
 
--- Equal to:
-
-SELECT p.product_id, p.name, oi.quantity
-FROM order_items oi
-RIGHT JOIN products p 
-	ON p.product_id = oi.product_id
-ORDER BY product_id
-
--- OUTER JOIN returns all records from one or both tables, even if there's no match.
--- Unlike INNER JOIN (which returns only matching rows), OUTER JOIN includes unmatched rows too.
--- LEFT JOIN returns all rows from the left table + matched rows from the right (NULL if no match).
--- RIGHT JOIN is the opposite: all rows from the right table + matched rows from the left.
-
+    FROM orders o
+LEFT JOIN shippers sh
+	ON o.shipper_id = sh.shipper_id
+LEFT JOIN order_statuses os
+	ON o.status = os.order_status_id
+JOIN customers c
+	ON o.customer_id = c.customer_id
+    
+ORDER BY o.status
