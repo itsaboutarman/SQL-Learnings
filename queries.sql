@@ -1,18 +1,24 @@
+-- we use Cross Join to combine every record from the first table
+-- with every record from the second table.
+
 USE sql_store;
 
 SELECT 
-    o.order_id,
-    c.first_name
-FROM orders o
-JOIN customers c
-    USING(customer_id)
- -- Equal to: ON o.customer_id = c.customer_id
+    c.first_name AS customet,
+    p.name AS product
 
-----------------------------------------------------------------
+FROM customers c
 
-SELECT * 
-FROM order_items oi
-JOIN order_item_notes oin
-    USING(order_id, product_id)    
-    -- ON oi.order_id = oin.order_id
-    -- AND oi.product_id = oin.product_id
+CROSS JOIN products p
+
+ORDER BY c.first_name
+
+-- Another way to write this:
+SELECT 
+    c.first_name AS customet,
+    p.name AS product
+
+FROM customers c , products p
+
+ORDER BY c.first_name
+
