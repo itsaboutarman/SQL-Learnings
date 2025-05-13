@@ -1,10 +1,21 @@
 USE sql_store;
 
-SELECT *
-FROM order_items oi
-JOIN order_items_notes oin
-    ON oi.order_id = oin.order_id
-    AND oi.product_id = oin.product_id
+SELECT p.product_id, p.name, oi.quantity
+FROM products p
+LEFT JOIN order_items oi
+	ON p.product_id = oi.product_id
+ORDER BY product_id
 
--- when we have multiple primary keys in a table,
--- we use a compound join and apply mulltiple conditions
+-- Equal to:
+
+SELECT p.product_id, p.name, oi.quantity
+FROM order_items oi
+RIGHT JOIN products p 
+	ON p.product_id = oi.product_id
+ORDER BY product_id
+
+-- OUTER JOIN returns all records from one or both tables, even if there's no match.
+-- Unlike INNER JOIN (which returns only matching rows), OUTER JOIN includes unmatched rows too.
+-- LEFT JOIN returns all rows from the left table + matched rows from the right (NULL if no match).
+-- RIGHT JOIN is the opposite: all rows from the right table + matched rows from the left.
+
