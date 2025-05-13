@@ -1,8 +1,10 @@
-USE sql_invoicing;
+USE sql_store;
 
-SELECT p.client_id, c.name AS name, pm.name AS payment_method
-FROM payments p
-JOIN payment_methods pm
-	ON p.payment_method = pm.payment_method_id
-JOIN clients c
-	ON p.client_id = c.client_id
+SELECT *
+FROM order_items oi
+JOIN order_items_notes oin
+    ON oi.order_id = oin.order_id
+    AND oi.product_id = oin.product_id
+
+-- when we have multiple primary keys in a table,
+-- we use a compound join and apply mulltiple conditions
