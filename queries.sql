@@ -1,8 +1,15 @@
-USE sql_store;
+USE sql_hr;
+SELECT 
+    e.employee_id,
+    e.first_name AS employee_name,
+    m.first_name AS manager
 
-SELECT * 
-FROM order_items oi
-JOIN sql_inventory.products p
---not that you have to prefix the tables
--- that are not part of the current database 
-    ON oi.product_id = p.product_id;
+FROM employees e
+JOIN employees m
+    ON e.reports_to = m.employee_id;
+
+-- The purpose of this code is to connect each employee 
+-- with their manager in the database. 
+-- It's creating a self-join, which means the employees table 
+-- is being joined with itself to show the relationship 
+-- between employees and their managers.
