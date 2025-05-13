@@ -1,15 +1,8 @@
-USE sql_hr;
-SELECT 
-    e.employee_id,
-    e.first_name AS employee_name,
-    m.first_name AS manager
+USE sql_invoicing;
 
-FROM employees e
-JOIN employees m
-    ON e.reports_to = m.employee_id;
-
--- The purpose of this code is to connect each employee 
--- with their manager in the database. 
--- It's creating a self-join, which means the employees table 
--- is being joined with itself to show the relationship 
--- between employees and their managers.
+SELECT p.client_id, c.name AS name, pm.name AS payment_method
+FROM payments p
+JOIN payment_methods pm
+	ON p.payment_method = pm.payment_method_id
+JOIN clients c
+	ON p.client_id = c.client_id
