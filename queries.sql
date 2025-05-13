@@ -1,7 +1,12 @@
 USE sql_store;
 
-SELECT *
-FROM customers
+SELECT order_id, o.customer_id, first_name, last_name
+--notice that when we have a same column in both tables, we need to specify
+--which table we are referring to -> orders.customer_id
 
-LIMIT 3 -- limit the number of rows and show the first 3 rows
-LIMIT 6,3 -- skip the first 6 rows and show the next 3 rows
+FROM orders o
+-- o is an alias for orders
+
+JOIN customers c --or we can use INNER JOIN
+-- c is an alias for customers
+    ON o.customer_id = c.customer_id
