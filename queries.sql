@@ -1,10 +1,13 @@
 USE sql_store;
 
-INSERT INTO orders(customer_id, order_date, status)
-VALUES (1, '2025-01-01', 1);
+CREATE TABLE orders_archived AS 
+SELECT * FROM orders
+ -- notice that when you copy the data from one table to another,
+ -- the table settings, primary keys and default values are not copied. 
 
-INSERT INTO order_items
-VALUES 
-    (LAST_INSERT_ID(), 1, 1, 2.95),
-    (LAST_INSERT_ID(), 2, 1, 3.95)
--- LAST_INSERT_ID returns the id of the last row we inserted
+----------------------------------------------------------------
+-- you can also copy a range of rows
+INSERT INTO orders_archived
+SELECT *
+FROM orders
+WHERE order_date < '2025-01-01'
