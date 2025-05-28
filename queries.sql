@@ -1,10 +1,11 @@
-USE sql_store;
+USE sql_invoicing;
 
-DELETE FROM invoices -- if we just execute this query, it will delete all the rows from the table
-WHERE client_id = 
-            (SELECT * 
-            FROM clients
-            WHERE name = 'Myworks');
+SELECT 
+	MAX(invoice_total) AS highest,
+    MIN(invoice_total) AS lowest,
+    AVG(invoice_total) AS average,
+    SUM(invoice_total) AS total,
+    COUNT(invoice_total) AS number_of_invoices
+-- these aggregate functions are only operate on non null values
+FROM invoices
 
--- 'IN' is used when the subquery may return multiple values.
--- '=' is used when the subquery returns exactly one value.
