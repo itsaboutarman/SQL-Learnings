@@ -5,3 +5,6 @@ WHERE client_id =
             (SELECT * 
             FROM clients
             WHERE name = 'Myworks');
+
+-- 'IN' is used when the subquery may return multiple values.
+-- '=' is used when the subquery returns exactly one value.
