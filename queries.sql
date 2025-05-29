@@ -2,10 +2,26 @@ USE sql_store;
 
 SELECT 
     order_id,
-    IFNULL(shipper_id, 'Not Assigned') AS shipper -- if shipper_id is null, then assign 'Not Assigned'
-    COALESCE(shipper_id, comments, 'Not Assigned') AS shipper_id
+    order_date,
+    IF(YEAR(order_date) = YEAR(NOW()), 'Active', 'Archived') AS status
+FROM orders 
 
-FROM oreders
+--equal to:
+SELECT 
+    order_id,
+    order_date,
+    'Active' AS status
+FROM orders o
+WHERE YEAR(order_date) = YEAR(NOW())
 
--- with the IFNULL function, we can substitute a value for null values
--- with the COALESCE function, we supply a list of values, and it will return the first non-null value
+UNION
+SELECT 
+    order_id,
+    order_date,
+    'Archived' AS status
+FROM orders o
+WHERE NOT (YEAR(order_date) = YEAR(NOW()))
+
+
+
+
