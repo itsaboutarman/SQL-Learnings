@@ -1,22 +1,9 @@
-USE sql_invoicing;
+SELECT ROUND(5.7345) 
+SELECT ROUND(5.7345, 2) -- rounds a decimal number to a specified number of decimal places
+SELECT TRUNCATE(5.7345, 2)
+SELECT CEILING(5.7345)
+SELECT FLOOR(5.7345)
+SELECT ABS(-5.7345)
+SELECT RAND()
 
-SELECT *
-FROM clients c
-WHERE EXISTS (
-	SELECT client_id
-    FROM invoices
-    WHERE client_id = c.client_id
-)
-
-
--- equal to:
-
-SELECT *
-FROM clients c
-WHERE client_id IN (
-	SELECT client_id
-    FROM invoices
-)
-
--- note that in large tables, EXISTS is faster than IN
-
+-- you can search mysql numeric functions to see more 
