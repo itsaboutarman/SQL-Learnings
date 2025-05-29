@@ -1,15 +1,36 @@
 USE sql_invoicing;
 
 SELECT 
-	date,
-    pm.name AS payment_method,
-    sum(amount) AS total_payments
+	client_id,
+    SUM(invoice_total) AS total_sales
+    COUNT(*) AS number_of_invoices,
 
-FROM payments p
-JOIN payment_methods pm
-	ON p.payment_method = pm.payment_method_id
+FROM invoices i
 
-GROUP BY date, payment_method -- grouping by date and payment method
+GROUP BY client_id
+HAVING total_sales > 500 
 
-ORDER BY date 
+-- we use WHERE clause to filter rows before grouping
 
+-- we use HAVING clause to filter rows after grouping
+-- note: the columns that we use in HAVING clause have to be part of our SELECT clause
+
+-- in this example we cannot filter total_sales before grouping
+
+------------------------------------------------------------------------------------------------------------------
+-- another example:
+
+USE sql_store;
+
+SELECT
+	c.customer_id,
+    c.first_name,
+    c.last_name,
+	SUM(oi.quantity * oi.unit_price) AS total_sales 
+		
+FROM customers c
+JOIN orders o USING (customer_id)
+JOIN order_items oi USING (order_id)
+WHERE state = 'VA'
+GROUP BY c.customer_id
+HAVING total > 100
