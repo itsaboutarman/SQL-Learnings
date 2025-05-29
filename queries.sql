@@ -1,14 +1,26 @@
 USE sql_invoicing;
 
-SELECT 
-	state, 
-    city, 
-    SUM(invoice_total) AS total_sales
+SELECT * 
+
 FROM invoices
-JOIN clients c USING (client_id)
-group by state , city WITH ROLLUP
 
--- WITH ROLLUP creates additional summary rows that show aggregated values
--- at different levels of grouping.
+WHERE invoice_total > ALL (
+	SELECT invoice_total
+    FROM invoices
+    WHERE client_id = 3
+)
 
--- this query is only available in MySQL. 
+-- when the subquery returns a list of values, we use the ALL operator
+
+---------------------------------------------------------------------------------------------------------------
+--equal to:
+
+SELECT * 
+
+FROM invoices
+
+WHERE invoice_total > (
+	SELECT MAX (invoice_total)
+    FROM invoices
+    WHERE client_id = 3
+)
