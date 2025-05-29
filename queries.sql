@@ -1,11 +1,15 @@
 USE sql_invoicing;
 
 SELECT 
-	MAX(invoice_total) AS highest,
-    MIN(invoice_total) AS lowest,
-    AVG(invoice_total) AS average,
-    SUM(invoice_total) AS total,
-    COUNT(invoice_total) AS number_of_invoices
--- these aggregate functions are only operate on non null values
-FROM invoices
+	date,
+    pm.name AS payment_method,
+    sum(amount) AS total_payments
+
+FROM payments p
+JOIN payment_methods pm
+	ON p.payment_method = pm.payment_method_id
+
+GROUP BY date, payment_method -- grouping by date and payment method
+
+ORDER BY date 
 
