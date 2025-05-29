@@ -1,9 +1,16 @@
-SELECT ROUND(5.7345) 
-SELECT ROUND(5.7345, 2) -- rounds a decimal number to a specified number of decimal places
-SELECT TRUNCATE(5.7345, 2)
-SELECT CEILING(5.7345)
-SELECT FLOOR(5.7345)
-SELECT ABS(-5.7345)
-SELECT RAND()
+SELECT LENGTH ('blue') --> 4
+SELECT UPPER ('blue') --> BLUE
+SELECT LOWER ('Blue') --> blue
+SELECT LTRIM ('     blue') --> blue
+SELECT LTRIM ('blue     ') --> blue
+SELECT TRIM ('   blue     ') --> blue
+SELECT LEFT ('Arman Salehi' , 5) --> Arman
+SELECT RIGHT ('Arman Salehi' , 6) --> Salehi
+SELECT SUBSTRING ('Arman Salehi' , 3, 6) --> man Sa
+SELECT SUBSTRING ('Arman Salehi' , 3) --> man Salehi
+SELECT SUBSTRING ('Arman Salehi' , 3) --> man Salehi
+SELECT SUBSTRING ('s', 'Arman Salehi') --> 7 (search is not case sensitive)
+SELECT SUBSTRING ('z', 'Arman Salehi') --> 0 (when the character is not found, it returns 0)
+SELECT REPLACE ('Arman Salehi', 'Arman', 'Mahan') --> Mahan Salehi
+SELECT CONCAT ('Arman', ' ', 'Mahan') --> Arman Mahan
 
--- you can search mysql numeric functions to see more 
