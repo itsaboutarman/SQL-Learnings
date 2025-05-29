@@ -1,26 +1,22 @@
 USE sql_invoicing;
 
-SELECT * 
-
-FROM invoices
-
-WHERE invoice_total > ALL (
-	SELECT invoice_total
+SELECT *
+FROM clients c
+WHERE EXISTS (
+	SELECT client_id
     FROM invoices
-    WHERE client_id = 3
+    WHERE client_id = c.client_id
 )
 
--- when the subquery returns a list of values, we use the ALL operator
 
----------------------------------------------------------------------------------------------------------------
---equal to:
+-- equal to:
 
-SELECT * 
-
-FROM invoices
-
-WHERE invoice_total > (
-	SELECT MAX (invoice_total)
+SELECT *
+FROM clients c
+WHERE client_id IN (
+	SELECT client_id
     FROM invoices
-    WHERE client_id = 3
 )
+
+-- note that in large tables, EXISTS is faster than IN
+
