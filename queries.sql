@@ -1,8 +1,8 @@
 USE sql_invoicing;
 
-DROP VIEW clients_balance; -- Drop the view if it exists before creating it again
+DROP VIEW clients_balance; 
 
-CREATE OR REPLACE VIEW clients_balance AS -- Create or replace the view
+CREATE OR REPLACE VIEW clients_balance AS
 	SELECT 
 		c.client_id,
 		c.name,
@@ -10,6 +10,7 @@ CREATE OR REPLACE VIEW clients_balance AS -- Create or replace the view
 	FROM clients c
 	JOIN invoices i USING (client_id)
     GROUP BY c.client_id, c.name
-
--- if you want to change the view, you can drop it and create it again
--- or use CREATE OR REPLACE VIEW to update it without dropping
+    
+    WITH CHECK OPTION
+-- The WITH CHECK OPTION clause is used when creating a view to ensure that
+-- any INSERT or UPDATE performed through the view complies with the view’s WHERE condition.
