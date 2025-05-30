@@ -1,6 +1,8 @@
 USE sql_invoicing;
 
-CREATE VIEW clients_balance AS
+DROP VIEW clients_balance; -- Drop the view if it exists before creating it again
+
+CREATE OR REPLACE VIEW clients_balance AS -- Create or replace the view
 	SELECT 
 		c.client_id,
 		c.name,
@@ -9,3 +11,5 @@ CREATE VIEW clients_balance AS
 	JOIN invoices i USING (client_id)
     GROUP BY c.client_id, c.name
 
+-- if you want to change the view, you can drop it and create it again
+-- or use CREATE OR REPLACE VIEW to update it without dropping
