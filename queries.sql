@@ -1,37 +1,34 @@
-DROP PROCEDURE IF EXISTS get_invoices_by_client;
-
+DROP PROCEDURE IF EXISTS make_payment;
 DELIMITER $$
-CREATE PROCEDURE get_invoices_by_client
+CREATE PROCEDURE make_payment 
 (
-	client_id INT
+	invoice_id INT,
+    payment_amount DECIMAL(9,2), -- 9 digits in total and 2 digits after the decimal point
+	payment_date DATE
 )
 BEGIN
--- Example:	
-	IF client_id IS NULL
-		SET client_id = 2;
+/*
+This block checks if the payment_amount is negative.
+If it is, it raises a custom error using the SIGNAL statement.
+SQLSTATE '22003' indicates a numeric value out of range.
+The custom error message "Invalid payment amount" is shown to the user.
+*/	
+	IF payment_amount < 0 THEN
+		SIGNAL SQLSTATE '22003'
+			SET MESSAGE_TEXT = 'Invalid payment amount'; 
 	END IF;
-	SELECT *
-	FROM INVOICES i
-	WHERE i.client_id = client_id;
+            
+	UPDATE invoices i
+	SET
+		i.payment_amount = payment_amount,
+		i.payment_date = payment_date
+	WHERE i.invoice_id = invoice_id;
+END $$
+DELIMITER 
 
--- Example:
-	IF client_id IS NULL
-		SELECT * FROM INVOICES i;
-	ELSE
-	SELECT *
-	FROM INVOICES i
-	WHERE i.client_id = client_id;
-	END IF;
--- Another way to write this code:
-	SELECT *
-	FROM INVOICES i
-	WHERE i.client_id = IFNULL(client_id, i.client_id);
-	-- IFNULL(X, Y) returns X if it's not NULL; otherwise, it returns Y
-
-END &&
-DELIMITER ;
-
--- Note that in all the examples above,
--- if we want to use the default value,
--- we must pass NULL as the input parameter to the procedure;
--- otherwise, leaving it empty will cause an error."
+/*
+Validating all possible states for each input parameter inside the procedure 
+can make the code bloated, messy, and hard to maintain.
+It's better to handle input validation and parameter control on the application side,
+which is faster and prevents invalid data from reaching the database at all.
+*/
