@@ -1,10 +1,13 @@
-DROP PROCEDURE IF EXISTS new_procedure;
+DROP PROCEDURE IF EXISTS get_invoices_by_client;
 
-/*
-DDL (Data Definition Language) Files
-
-Storing DDL statements (like CREATE, ALTER, DROP for tables, views, or procedures) 
-in separate, version-controlled SQL files is a best practice.
-This ensures version control, reproducibility across environments, easier collaboration
- among team members, and facilitates automated deployments.
-*/
+DELIMITER $$
+CREATE PROCEDURE get_invoices_by_client
+(
+	client_id INT(11)
+)
+BEGIN
+	SELECT *
+	FROM INVOICES i
+	WHERE i.client_id = client_id;
+END &&
+DELIMITER ;
