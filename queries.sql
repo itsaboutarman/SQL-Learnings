@@ -27,7 +27,11 @@ BEGIN
 	FROM INVOICES i
 	WHERE i.client_id = IFNULL(client_id, i.client_id);
 	-- IFNULL(X, Y) returns X if it's not NULL; otherwise, it returns Y
-	
 
 END &&
 DELIMITER ;
+
+-- Note that in all the examples above,
+-- if we want to use the default value,
+-- we must pass NULL as the input parameter to the procedure;
+-- otherwise, leaving it empty will cause an error."
