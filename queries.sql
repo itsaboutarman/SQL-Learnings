@@ -1,16 +1,21 @@
 USE sql_invoicing;
+/* A PROCEDURE (or Stored Procedure) in SQL is a subroutine,
+ or a set of SQL statements, that is stored in the database.
+  It can be executed on demand, encapsulating complex logic,
+   improving performance by reducing network traffic,
+    and enhancing security by controlling access to data. */
 
-DROP VIEW clients_balance; 
+DELIMITER $$
+CREATE PROCEDURE get_clients()
+BEGIN
+	SELECT * FROM clients;
+END $$
+DELIMITER ;
+/* DELIMITER is a command used in SQL,
+  particularly in command-line clients,
+  to change the default statement terminator (;). 
+  This is essential when defining stored procedures, functions, or triggers 
+  that contain multiple SQL statements,
+  allowing the entire block to be parsed as a single unit.*/
 
-CREATE OR REPLACE VIEW clients_balance AS
-	SELECT 
-		c.client_id,
-		c.name,
-		SUM(i.invoice_total - i.payment_total) AS balance
-	FROM clients c
-	JOIN invoices i USING (client_id)
-    GROUP BY c.client_id, c.name
-    
-    WITH CHECK OPTION
--- The WITH CHECK OPTION clause is used when creating a view to ensure that
--- any INSERT or UPDATE performed through the view complies with the view’s WHERE condition.
+  CALL get_clients() --> when we want to call the procedure
