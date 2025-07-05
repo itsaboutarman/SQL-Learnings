@@ -1,23 +1,20 @@
+-- A transaction is a sequence of one or more SQL operations that are executed as a single unit of work.
+-- It ensures that either all operations succeed (commit) or all are undone (rollback) to maintain data integrity.
+
 /*
-An EVENT is a scheduled task in MySQL that runs automatically at a specific time or interval.
-It is useful for maintenance tasks like deleting old data, sending reminders, or generating reports.
+	ACID principles ensure reliable transactions:
+	A - Atomicity: All operations in a transaction succeed or none do.
+	C - Consistency: Data remains valid before and after the transaction.
+	I - Isolation: Concurrent transactions do not interfere with each other.
+	D - Durability: Once committed, changes persist even after a crash.
 */
 
-DELIMITER $$
-CREATE EVENT yearly_delete_stale_audit_rows
-ON SCHEDULE
-	-- AT '2019-05-01'
-    EVERY 1 YEAR STARTS '2019-01-01' ENDS '2029-01-01'
-    
--- In EVENTs, DO is required before BEGIN to define the action block.
-DO BEGIN
-	DELETE FROM payments_audit -- this is a sample table
-    WHERE action_date < NOW() - INTERVAL 1 YEAR;
-END $$
-DELIMITER ;
+USE sql_store;
 
-SHOW EVENTS; -- viewing events
+START TRANSACTION;
+INSERT INTO orders (customer_id, order_date, status)
+VALUES (1, '2019-01-01', 1);
+INSERT INTO order_items (customer_id, order_date, status)
+VALUES (LAST_INSERT_ID(), 1, 1, 1);
 
-DROP EVENT IF EXISTS yearly_delete_stale_audit_rows; -- Dropping
-
-ALTER EVENT yearly_delete_stale_audit_rows DISABLE; -- Temporarily Enable or Disable
+COMMIT;
