@@ -1,28 +1,34 @@
--- User or Session Vriables:
-SET @invoice_count = 0;
--- User-defined variables (@var) persist during the session and are lost when the connection closes.
+-- Functions return a value and can be used in SQL expressions. 
+-- Procedures perform actions and can modify data but don't return values directly.
+-- Functions return one value; procedures can return multiple values and perform operations.
 
-
--- Local Variables:
-DROP PROCEDURE IF EXISTS get_unpaid_invoices_for_client;
+DROP FUNCTION IF EXISTS get_risk_factor_for_client;
 
 DELIMITER $$
-CREATE PROCEDURE get_unpaid_invoices_for_client 
-(
+CREATE FUNCTION get_risk_factor_for_client(
 	client_id INT
 )
+RETURNS int
+-- Function attributes like DETERMINISTIC, READS SQL DATA, etc.
+-- define behavior, data access, and output consistency.
+
+-- DETERMINISTIC means the function always returns the same result for the same input.
+-- READS SQL DATA means the function only reads from the database (no modification).
+
+READS SQL DATA
 BEGIN
-	
-    DECLARE invoices_count INT DEFAULT 0;
-    DECLARE invoices_total INT DEFAULT 0;
--- Local variables exist only during the procedure's execution.
-	
+	DECLARE risk_factor DECIMAL(9,2) DEFAULT 0;
+    DECLARE invoices_total DECIMAL(9,2);
+    DECLARE invoices_count INT;
+    
     SELECT COUNT(*), SUM(invoice_total)
     INTO invoices_count, invoices_total
     FROM invoices i
-    WHERE i.client_id = client_id
-		AND	payment_total = 0;
-	
-    SELECT invoices_count , invoices_total;
+    WHERE i.client_id = client_id;
+    
+    SET risk_factor = invoices_total / invoices_count * 5;
+    
+RETURN risk_factor;
 END $$
+
 DELIMITER ;
