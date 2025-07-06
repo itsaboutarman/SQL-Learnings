@@ -1,55 +1,48 @@
 /*
-  📌 Data Modeling Stages in Database Design
+  There are 3 primary types of relationships:
 
-  In database design, data modeling is typically done in three major stages:
+  1️⃣ One-to-One (1:1)
 
-  1. Conceptual Data Model
-  2. Logical Data Model
-  3. Physical Data Model
-
-  -------------------------------------------------
-  1️⃣ Conceptual Data Model:
-
-  - Purpose: To define *what* data the system needs — at a high, business-level.
-  - Focus: Entities, their attributes, and relationships.
-  - No consideration of technical implementation or DBMS.
-  - Audience: Business stakeholders, analysts, designers.
-  - Tools: ER diagrams (Entity-Relationship), UML.
-  - Example: Entities like "Student", "Course", "Instructor" with relationships like "Student enrolls in Course".
+  - Meaning: One record in Table A is related to exactly one record in Table B, and vice versa.
+  - Use case: When splitting information into two separate tables for clarity, privacy, or optionality.
+  - Example:
+      - Table: USERS (user_id, name)
+      - Table: USER_PROFILES (user_id, profile_picture, bio)
+      - Each user has one profile, and each profile belongs to one user.
+  - Implementation: Usually by putting a UNIQUE foreign key in one of the tables.
 
   -------------------------------------------------
-  2️⃣ Logical Data Model:
+  2️⃣ One-to-Many (1:N)
 
-  - Purpose: To define *how* the data should be organized logically.
-  - Focus: Tables, columns (with data types), primary and foreign keys.
-  - Still platform-independent (not specific to MySQL, Oracle, etc).
-  - Enforces normalization rules (1NF, 2NF, 3NF, etc).
-  - Audience: Database designers, developers.
-  - Example: Tables like STUDENT(student_id, name, email), COURSE(course_id, title, price), and ENROLLMENT.
+  - Meaning: One record in Table A can be related to many records in Table B,
+             but each record in Table B relates to only one record in Table A.
+  - Most common type of relationship.
+  - Example:
+      - Table: AUTHORS (author_id, name)
+      - Table: BOOKS (book_id, title, author_id)
+      - One author can write many books, but each book has only one author.
+  - Implementation: Table B (BOOKS) contains a foreign key (author_id) pointing to Table A (AUTHORS).
 
   -------------------------------------------------
-  3️⃣ Physical Data Model:
+  3️⃣ Many-to-Many (M:N)
 
-  - Purpose: To implement the logical model on a specific DBMS.
-  - Focus: Actual SQL code, indexes, constraints, storage engines.
-  - Platform-specific: Includes details like VARCHAR lengths, storage format, InnoDB vs MyISAM, etc.
-  - Includes performance tuning and security considerations.
-  - Audience: Database administrators (DBAs), backend developers.
-  - Example: CREATE TABLE statements in MySQL Workbench, defining CHARSET, COLLATION, ENGINE, etc.
+  - Meaning: One record in Table A can relate to many in Table B, and vice versa.
+  - Requires a junction (bridge) table to implement.
+  - Example:
+      - Table: STUDENTS (student_id, name)
+      - Table: COURSES (course_id, title)
+      - Each student can enroll in many courses, and each course can have many students.
+      - Bridge Table: ENROLLMENTS (student_id, course_id, grade)
+  - Implementation:
+      - ENROLLMENTS table contains foreign keys to both STUDENTS and COURSES.
 
   -------------------------------------------------
   💡 Summary:
-  - Conceptual = What data?
-  - Logical = How is it structured?
-  - Physical = How is it implemented?
 
-  These stages help bridge the gap between business requirements and technical implementation,
-  ensuring that the final database design is efficient, normalized, and scalable.
-*/
+  - 1:1 = Unique pairing
+  - 1:N = Parent has many children
+  - M:N = Both sides have multiple associations; needs a third table
 
-/*
-  Modeling tools:
-   - Microsoft Visio
-   - draw.io
-   - Lucidchart
+  These relationships are crucial to properly normalize data and avoid redundancy,
+  while still maintaining logical connections between real-world entities.
 */
