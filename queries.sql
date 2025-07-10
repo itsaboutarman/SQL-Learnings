@@ -1,16 +1,44 @@
 /*
-Second Normal Form (2NF):
-A table is in 2NF if:
-  1. It is already in First Normal Form (1NF)
-  2. Every non-key column depends on the whole primary key, not just part of it
+Third Normal Form (3NF):
+A table is in 3NF if:
+  1. It is already in Second Normal Form (2NF)
+  2. All non-key columns depend only on the primary key, and not on other non-key columns
 
 In simple terms:
-  Avoid repeating the same information in multiple rows
-  Example: If multiple courses have the same instructor, don't store the instructor's name in every row
-  Instead, move instructor info to a separate table and reference it using an ID (foreign key)
+  Each piece of data should belong to the row's main topic (the primary key)
+  Don't include columns that depend on other columns
 
-Why this matters:
-  - Makes updates easier (change in one place only)
-  - Reduces duplicate data
-  - Keeps the database cleaner and more reliable
+Example:
+  If a table stores StudentID, DepartmentID, and DepartmentName,
+  DepartmentName depends on DepartmentID, not directly on StudentID
+  → This breaks 3NF
+
+Fix:
+  Move DepartmentName into a separate Departments table and link using DepartmentID
+
+Why 3NF is important:
+  - Avoids duplicated data
+  - Makes updates safer and more consistent
+  - Keeps each table focused on one topic
+Third Normal Form (3NF):
+A table is in 3NF if:
+  1. It is already in Second Normal Form (2NF)
+  2. All non-key columns depend only on the primary key, and not on other non-key columns
+
+In simple terms:
+  Each piece of data should belong to the row's main topic (the primary key)
+  Don't include columns that depend on other columns
+
+Example:
+  If a table stores StudentID, DepartmentID, and DepartmentName,
+  DepartmentName depends on DepartmentID, not directly on StudentID
+  → This breaks 3NF
+
+Fix:
+  Move DepartmentName into a separate Departments table and link using DepartmentID
+
+Why 3NF is important:
+  - Avoids duplicated data
+  - Makes updates safer and more consistent
+  - Keeps each table focused on one topic
 */
